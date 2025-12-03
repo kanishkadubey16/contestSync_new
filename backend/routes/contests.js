@@ -1,6 +1,6 @@
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
-const { auth } = require('../middleware/auth');
+const { auth, adminAuth } = require('../middleware/auth');
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -27,6 +27,52 @@ router.get('/', async (req, res) => {
     ]);
     
     res.json({ contests, total, pages: Math.ceil(total / limit) });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+router.post('/', auth, adminAuth, async (req, res) => {
+  try {
+    const { name, platform, startTime, duration, url } = req.body;
+    const contest = await prisma.contest.create({
+      data: {
+        name,
+        platform,
+        startTime: new Date(startTime),
+        duration: parseInt(duration),
+        url
+      }
+    });
+    res.json(contest);
+  } catch (error) {
+    res.status(400).json({ error: 'Contest creation failed' });
+  }
+});
+
+router.put('/:id', auth, adminAuth, async (req, res) => {
+  try {
+    const { name, platform, startTime, duration, url } = req.body;
+    const contest = await prisma.contest.update({
+      where: { id: req.params.id },
+      data: {
+        name,
+        platform,
+        startTime: new Date(startTime),
+        duration: parseInt(duration),
+        url
+      }
+    });
+    res.json(contest);
+  } catch (error) {
+    res.status(400).json({ error: 'Contest update failed' });
+  }
+});
+
+router.delete('/:id', auth, adminAuth, async (req, res) => {
+  try {
+    await prisma.contest.delete({ where: { id: req.params.id } });
+    res.json({ message: 'Contest deleted' });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }
