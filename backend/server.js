@@ -9,7 +9,10 @@ const prisma = new PrismaClient();
 // Make prisma available globally
 global.prisma = prisma;
 
-app.use(cors());
+app.use(cors({
+    origin : "*",
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 app.use(express.json());
 
 const authRoutes = require('./routes/auth');
