@@ -21,6 +21,9 @@ const userRoutes = require('./routes/users');
 const adminRoutes = require('./routes/admin');
 const { syncContests } = require('./services/contestSync');
 
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
 app.use('/api/auth', authRoutes);
 app.use('/api/contests', contestRoutes);
 app.use('/api/user', userRoutes);
