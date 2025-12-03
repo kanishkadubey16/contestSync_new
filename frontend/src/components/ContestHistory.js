@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -32,7 +33,7 @@ const ContestHistory = () => {
 
   const fetchHistory = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/api/user/history');
+      const response = await axios.get(`${API_BASE_URL}/api/user/history`);
       setHistory(response.data);
     } catch (error) {
       console.error('Error fetching history:', error);
@@ -41,7 +42,7 @@ const ContestHistory = () => {
 
   const fetchTotalQuestions = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/api/user/history/questions');
+      const response = await axios.get(`${API_BASE_URL}/api/user/history/questions`);
       setTotalQuestions(response.data.totalQuestions);
     } catch (error) {
       console.error('Error fetching total questions:', error);
@@ -51,7 +52,7 @@ const ContestHistory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5001/api/user/history/add', formData);
+      await axios.post(`${API_BASE_URL}/api/user/history/add`, formData);
       setFormData({ contestName: '', platform: '', date: '', questions: '' });
       setShowForm(false);
       fetchHistory();

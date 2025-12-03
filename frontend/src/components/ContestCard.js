@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 
 const ContestCard = ({ contest, onUpdate }) => {
   const [hasReminder, setHasReminder] = useState(false);
@@ -28,10 +29,10 @@ const ContestCard = ({ contest, onUpdate }) => {
   const toggleReminder = async () => {
     try {
       if (hasReminder) {
-        await axios.delete(`http://localhost:5001/api/contests/${contest.id}/reminder`);
+        await axios.delete(`${API_BASE_URL}/api/contests/${contest.id}/reminder`);
         setHasReminder(false);
       } else {
-        await axios.post(`http://localhost:5001/api/contests/${contest.id}/reminder`);
+        await axios.post(`${API_BASE_URL}/api/contests/${contest.id}/reminder`);
         setHasReminder(true);
       }
       onUpdate();
