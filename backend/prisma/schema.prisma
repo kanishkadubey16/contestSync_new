@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reminders      Reminder[]
+  contestHistory ContestHistory[]
+
+  @@map("users")
+}
+
+model Contest {
+  id          String   @id @default(cuid())
+  name        String
+  platform    String
+  startTime   DateTime
+  duration    Int
+  url         String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  reminders      Reminder[]
+  contestHistory ContestHistory[]
+
+  @@map("contests")
+}
+
+model Reminder {
+  id        String   @id @default(cuid())
+  userId    String
+  contestId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contest Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contestId])
+  @@map("reminders")
+}
+
+model ContestHistory {
+  id               String   @id @default(cuid())
+  userId           String
+  contestId        String
+  rank             Int?
+  questionsSolved  Int      @default(0)
+  participatedAt   DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contest Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contestId])
+  @@map("contest_history")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
