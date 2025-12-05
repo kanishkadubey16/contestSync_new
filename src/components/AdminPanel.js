@@ -21,7 +21,6 @@ const AdminPanel = () => {
 
   useEffect(() => {
     if (activeTab === 'users') fetchUsers();
-    if (activeTab === 'reminders') fetchReminders();
     if (activeTab === 'overview') fetchOverview();
     if (activeTab === 'leaderboard') fetchLeaderboard();
     if (activeTab === 'contests') fetchContests();
@@ -36,14 +35,7 @@ const AdminPanel = () => {
     }
   };
 
-  const fetchReminders = async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/api/admin/reminders`);
-      setReminders(response.data);
-    } catch (error) {
-      console.error('Error fetching reminders:', error);
-    }
-  };
+
 
   const fetchOverview = async () => {
     try {
@@ -128,7 +120,7 @@ const AdminPanel = () => {
       <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Admin Panel</h1>
       
       <div className="flex space-x-4 mb-6">
-        {['overview', 'contests', 'users', 'reminders', 'leaderboard'].map(tab => (
+        {['overview', 'contests', 'users', 'leaderboard'].map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
