@@ -3,18 +3,25 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Register = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
+    
     try {
-      await register(formData.email, formData.password, formData.name);
+      await register(formData.email, formData.password, formData.username);
       navigate('/dashboard');
     } catch (error) {
-      setError('Registration failed');
+      console.error('Registration error:', error);
+      setError(error.response?.data?.error || 'Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,14 +46,15 @@ const Register = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
-              Name
+              Username
             </label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="username"
+              value={formData.username}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              placeholder="Choose a username"
               required
             />
           </div>
@@ -61,6 +69,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              placeholder="Enter your email"
               required
             />
           </div>
@@ -75,15 +84,17 @@ const Register = () => {
               value={formData.password}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              placeholder="Create a password"
               required
             />
           </div>
           
           <button
             type="submit"
-            className="w-full btn btn-primary py-3"
+            disabled={loading}
+            className="w-full btn btn-primary py-3 disabled:opacity-50"
           >
-            Create Account
+            {loading ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
         

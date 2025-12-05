@@ -63,11 +63,11 @@ const ContestHistory = () => {
   };
 
   const chartData = {
-    labels: history.map(h => new Date(h.date).toLocaleDateString()),
+    labels: history.map(h => new Date(h.participatedAt).toLocaleDateString()),
     datasets: [
       {
         label: 'Questions Solved',
-        data: history.map(h => h.questions),
+        data: history.map(h => h.questionsSolved),
         borderColor: 'rgb(59, 130, 246)',
         backgroundColor: 'rgba(59, 130, 246, 0.1)',
         tension: 0.1,
@@ -182,16 +182,16 @@ const ContestHistory = () => {
             {history.map((contest, index) => (
               <tr key={index}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                  {contest.contestName}
+                  {contest.contest?.name || 'Manual Entry'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                  {contest.platform}
+                  {contest.contest?.platform || 'Manual'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                  {new Date(contest.date).toLocaleDateString()}
+                  {new Date(contest.participatedAt).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                  {contest.questions}
+                  {contest.questionsSolved}
                 </td>
               </tr>
             ))}

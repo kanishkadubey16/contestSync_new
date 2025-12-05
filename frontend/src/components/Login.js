@@ -6,16 +6,23 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
+    
     try {
       await login(email, password);
       navigate('/dashboard');
     } catch (error) {
-      setError('Invalid credentials');
+      console.error('Login error:', error);
+      setError(error.response?.data?.error || 'Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -43,6 +50,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              placeholder="Enter your email"
               required
             />
           </div>
@@ -56,24 +64,32 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              placeholder="Enter your password"
               required
             />
           </div>
           
           <button
             type="submit"
-            className="w-full btn btn-primary py-3"
+            disabled={loading}
+            className="w-full btn btn-primary py-3 disabled:opacity-50"
           >
-            Sign In
+            {loading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
         
-        <p className="mt-4 text-center text-gray-600 dark:text-gray-400">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-blue-500 hover:underline">
-            Register here
-          </Link>
-        </p>
+        <div className="mt-6 text-center">
+          <p className="text-gray-600 dark:text-gray-400 mb-2">
+            Don't have an account?{' '}
+            <Link to="/register" className="text-blue-500 hover:underline">
+              Register here
+            </Link>
+          </p>
+          <div className="border-t pt-4 mt-4">
+            <p className="text-sm text-gray-500 dark:text-gray-400">Demo Admin Account:</p>
+            <p className="text-xs text-gray-400">admin@gmail.com / admin123</p>
+          </div>
+        </div>
       </div>
     </div>
   );
