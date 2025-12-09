@@ -45,9 +45,3 @@ ContestSync solves this by:
 
 ---
 
-## ⚙️ How to Run Locally
-
-### Clone Repository
-```bash
-git clone https://github.com/YOUR_USERNAME/ContestSync.git
-cd ContestSync
