@@ -89,8 +89,10 @@ const AdminPanel = () => {
     try {
       if (editingContest) {
         await api.put(`/api/contests/${editingContest.id}`, formData);
+        alert('Contest updated successfully!');
       } else {
         await api.post('/api/contests', formData);
+        alert('Contest added successfully!');
       }
       setFormData({ name: '', platform: '', startTime: '', duration: '', url: '' });
       setShowAddForm(false);
@@ -98,6 +100,7 @@ const AdminPanel = () => {
       fetchContests();
     } catch (error) {
       console.error('Error saving contest:', error);
+      alert('Error: ' + (error.response?.data?.error || error.message));
     }
   };
 
@@ -340,6 +343,35 @@ const AdminPanel = () => {
               </tbody>
             </table>
           </div>
+        </div>
+      )}
+
+      {activeTab === 'reminders' && (
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-gray-50 dark:bg-gray-700">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">User</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Email</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Contest</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Platform</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Start Time</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+              {reminders.map(reminder => (
+                <tr key={reminder.id}>
+                  <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">{reminder.user.username}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">{reminder.email}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">{reminder.contest.name}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">{reminder.contest.platform}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
+                    {new Date(reminder.contest.startTime).toLocaleString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 

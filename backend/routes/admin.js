@@ -121,4 +121,24 @@ router.get('/leaderboard', async (req, res) => {
   }
 });
 
+router.get('/reminders', authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const reminders = await prisma.reminder.findMany({
+      include: {
+        user: {
+          select: { username: true, email: true }
+        },
+        contest: {
+          select: { name: true, platform: true, startTime: true }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    res.json(reminders);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch reminders' });
+  }
+});
+
 module.exports = router;

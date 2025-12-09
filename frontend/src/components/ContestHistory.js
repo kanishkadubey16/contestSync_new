@@ -33,7 +33,10 @@ const ContestHistory = () => {
 
   const fetchHistory = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/user/history`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_BASE_URL}/api/user/history`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       setHistory(response.data);
     } catch (error) {
       console.error('Error fetching history:', error);
@@ -42,7 +45,10 @@ const ContestHistory = () => {
 
   const fetchTotalQuestions = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/user/history/questions`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_BASE_URL}/api/user/history/questions`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       setTotalQuestions(response.data.totalQuestions);
     } catch (error) {
       console.error('Error fetching total questions:', error);
@@ -52,18 +58,25 @@ const ContestHistory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem('token');
       const payload = {
-        contestId: 'manual-' + Date.now(),
+        contestName: formData.contestName,
+        platform: formData.platform,
+        date: formData.date,
         rank: null,
         questionsSolved: parseInt(formData.questions)
       };
-      await axios.post(`${API_BASE_URL}/api/user/history/add`, payload);
+      await axios.post(`${API_BASE_URL}/api/user/history/add`, payload, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      alert('Contest added to history!');
       setFormData({ contestName: '', platform: '', date: '', questions: '' });
       setShowForm(false);
       fetchHistory();
       fetchTotalQuestions();
     } catch (error) {
       console.error('Error adding history:', error);
+      alert('Error: ' + (error.response?.data?.error || error.message));
     }
   };
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const { authenticateToken, requireAdmin } = require('../middleware/auth');
+const { sendReminderEmail } = require('../services/emailService');
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -107,16 +108,40 @@ router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
 router.post('/:id/reminder', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
+    const { email } = req.body;
     const userId = req.user.id;
+
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    const contest = await prisma.contest.findUnique({ where: { id } });
+    if (!contest) {
+      return res.status(404).json({ error: 'Contest not found' });
+    }
 
     const reminder = await prisma.reminder.create({
       data: {
         userId,
-        contestId: id
+        contestId: id,
+        email
       }
     });
 
-    res.status(201).json(reminder);
+    // Send email to the provided email address
+    const emailSent = await sendReminderEmail(
+      email,
+      contest.name,
+      contest.url,
+      contest.startTime,
+      contest.platform
+    );
+
+    res.status(201).json({ 
+      reminder, 
+      emailSent,
+      message: emailSent ? `Reminder set and email sent to ${email}!` : 'Reminder set but email failed'
+    });
   } catch (error) {
     if (error.code === 'P2002') {
       return res.status(400).json({ error: 'Reminder already exists' });

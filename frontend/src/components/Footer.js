@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
 const Footer = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -80,17 +81,10 @@ const Footer = () => {
             {/* Email Icon */}
             <a
               href="mailto:kanishka.dubey2024@nst.rishihood.edu.in"
-              className="bg-gray-800 dark:bg-gray-900 p-4 rounded-full hover:bg-indigo-600 dark:hover:bg-blue-600 transition-colors shadow-lg dark:shadow-xl"
+              className="bg-gray-800 dark:bg-gray-900 p-3 rounded-full hover:bg-indigo-600 dark:hover:bg-blue-600 transition-colors shadow-lg dark:shadow-xl flex items-center justify-center w-12 h-12"
               aria-label="Email"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="white"
-                viewBox="0 0 24 24"
-                className="w-6 h-6"
-              >
-                <path d="M1.5 4.5h21v15h-21v-15zm10.5 7.5l10.5-7.5h-21l10.5 7.5z" />
-              </svg>
+              <FaEnvelope className="text-white text-2xl" />
             </a>
 
             {/* LinkedIn Icon */}
@@ -98,17 +92,10 @@ const Footer = () => {
               href="https://www.linkedin.com/in/kanishka-dubey-3b6b29316"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-gray-800 dark:bg-gray-900 p-4 rounded-full hover:bg-indigo-600 dark:hover:bg-blue-600 transition-colors shadow-lg dark:shadow-xl"
+              className="bg-gray-800 dark:bg-gray-900 p-3 rounded-full hover:bg-indigo-600 dark:hover:bg-blue-600 transition-colors shadow-lg dark:shadow-xl flex items-center justify-center w-12 h-12"
               aria-label="LinkedIn"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="white"
-                viewBox="0 0 24 24"
-                className="w-6 h-6"
-              >
-                <path d="M4.98 3.5c0 1.38-1.11 2.5-2.48 2.5-1.37 0-2.49-1.12-2.49-2.5C.01 2.12 1.13 1 2.5 1 3.87 1 4.98 2.12 4.98 3.5zM.5 24V7h4.97v17H.5zM7.5 7h4.77v2.33h.07c.66-1.25 2.27-2.57 4.67-2.57 5 0 5.93 3.29 5.93 7.57V24H18v-7.91c0-1.88-.03-4.3-2.62-4.3-2.63 0-3.03 2.05-3.03 4.17V24H7.5V7z" />
-              </svg>
+              <FaLinkedin className="text-white text-2xl" />
             </a>
           </div>
         </div>

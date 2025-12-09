@@ -52,10 +52,6 @@ npm install
 npm start
 ```
 
-## Deployment
-
-See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
-
 ## Project Structure
 
 ```
