@@ -1,75 +1,53 @@
-# ContestSync 🏆
+# 🏆 ContestSync
 
-A full-stack web application for tracking competitive programming contests across multiple platforms (Codeforces, LeetCode, AtCoder, HackerRank).
+🔗 **Live Frontend URL:** https://contest-sync-new-final.vercel.app/login  
+<br>
 
-## Features
+ContestSync is a web platform that collects upcoming competitive programming contests from popular platforms like **Codeforces, LeetCode, AtCoder, and CodeChef** — all in one place!
 
-- 🔐 User authentication (JWT)
-- 📅 Contest aggregation from multiple platforms
-- ⏰ Contest reminders
-- 📊 Admin panel for contest management
-- 👥 User management
-- 📈 Contest history tracking
-- 🎯 Leaderboard
+Stay updated with contest schedules, set reminders, and never miss a contest again 🚀
 
-## Tech Stack
+---
 
-### Backend
-- Node.js + Express
-- PostgreSQL + Prisma ORM
-- JWT Authentication
-- Node-cron for scheduled tasks
+## 🎯 Project Idea
 
-### Frontend
-- React
-- React Router
-- Axios
-- Tailwind CSS
+Competitive programmers often struggle to track contests happening across multiple platforms.  
+ContestSync solves this by:
 
-## Quick Start
+- Showing all upcoming contests in a single dashboard
+- Sending reminder notifications before a contest starts
+- Allowing users to choose contests they want to participate in
+- Making contest management easy and stress-free
 
-### Prerequisites
-- Node.js 18+
-- PostgreSQL database
+---
 
-### Backend Setup
+## ⭐ Features
 
+| Feature | Description |
+|--------|-------------|
+| Contest Aggregation | Fetch contest details from multiple platforms |
+| Login & Authentication | Secure login for personalized reminders |
+| Add Reminder | One-click reminder setup for contests |
+| Dashboard | Clean UI displaying all upcoming contests |
+| Dark Mode | Better accessibility & user experience |
+
+---
+
+## 🧰 Tech Stack
+
+| Category | Technology Used |
+|---------|----------------|
+| Frontend | React, Tailwind CSS |
+| Backend | Node.js, Express.js |
+| Database | PostgreSQL + Prisma ORM |
+| Hosting | Vercel (Frontend), Render/Local (Backend) |
+| Authentication | JWT |
+
+---
+
+## ⚙️ How to Run Locally
+
+### Clone Repository
 ```bash
-cd backend
-npm install
-cp .env.example .env
-# Edit .env with your database credentials
-npx prisma generate
-npx prisma db push
-npm run dev
-```
-
-### Frontend Setup
-
-```bash
-cd frontend
-npm install
-npm start
-```
-
-## Project Structure
-
-```
-ContestSync/
-├── backend/
-│   ├── middleware/      # Auth middleware
-│   ├── prisma/         # Database schema
-│   ├── routes/         # API routes
-│   ├── services/       # Business logic
-│   └── server.js       # Entry point
-└── frontend/
-    ├── src/
-    │   ├── components/ # React components
-    │   ├── config/     # Configuration
-    │   └── context/    # React context
-    └── public/
-```
-
-## License
-
-MIT
+git clone https://github.com/YOUR_USERNAME/ContestSync.git
+cd ContestSync
